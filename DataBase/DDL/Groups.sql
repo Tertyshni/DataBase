@@ -1,0 +1,8 @@
+﻿CREATE TABLE Groups
+(
+    [Id] INT IDENTITY PRIMARY KEY,
+    [Name] NVARCHAR(10) NOT NULL UNIQUE,
+    [Year] INT NOT NULL CHECK (Year BETWEEN 1 AND 5),
+    [DepartmentId] INT NOT NULL,
+    
+)

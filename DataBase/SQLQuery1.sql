@@ -1,63 +1,10 @@
-﻿CREATE PROCEDURE GetAllDisks
-AS
-SELECT * FROM Disks;
-GO
+﻿SELECT 
+	P.*
+FROM 
+	Producers P
+WHERE 
+	P.[Name] <> N'ASUS'
+	AND NOT (P.[Name] = N'' OR P.[Name] = N' ')
+	AND p.ParentId IS NOT NULL;
 
-CREATE PROCEDURE DisksByPublisher
-@Publisher NVARCHAR(100)
-AS
-SELECT * FROM Disks
-WHERE Publisher=@Publisher;
-GO
-
-CREATE PROCEDURE MostPopularStyle
-AS
-SELECT TOP 1 Style, COUNT(*) Total
-FROM Disks
-GROUP BY Style
-ORDER BY Total DESC;
-GO
-
-CREATE PROCEDURE DiskMostSongs
-@Style NVARCHAR(50)
-AS
-IF @Style='all'
-SELECT TOP 1 *
-FROM Disks
-ORDER BY SongsCount DESC
-ELSE
-SELECT TOP 1 *
-FROM Disks
-WHERE Style=@Style
-ORDER BY SongsCount DESC;
-GO
-
-CREATE PROCEDURE DeleteDisksByStyle
-@Style NVARCHAR(50)
-AS
-BEGIN
-DELETE FROM Disks
-WHERE Style=@Style;
-
-SELECT @@ROWCOUNT DeletedRows;
-END
-GO
-
-CREATE PROCEDURE OldestAndNewestAlbum
-AS
-BEGIN
-SELECT TOP 1 * FROM Disks ORDER BY ReleaseDate;
-SELECT TOP 1 * FROM Disks ORDER BY ReleaseDate DESC;
-END
-GO
-
-CREATE PROCEDURE DeleteDisksByWord
-@Word NVARCHAR(50)
-AS
-BEGIN
-DELETE FROM Disks
-WHERE Title LIKE '%' + @Word + '%';
-
-SELECT @@ROWCOUNT DeletedRows;
-END
-GO
+UPDATE Producers SET Description = N'ASUS LLC' WHERE Name = N'ASUS';
